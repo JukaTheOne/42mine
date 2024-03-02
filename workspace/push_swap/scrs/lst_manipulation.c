@@ -73,31 +73,34 @@ void	ft_push(t_stack **lst, t_stack *new)
 
 void    sa(t_stack **stack_a, int rep, int print)
 {
-    while (rep-- && print)
+    while (rep--)
 	{
 		ft_swap(stack_a);
-		write(1, "sa\n", 3);
+		if (print)
+			write(1, "sa\n", 3);
 	}
 	return ;
 }
 
 void    sb(t_stack **stack_b, int rep, int print)
 {
-    while (rep-- && print)
+    while (rep--)
 	{
 		ft_swap(stack_b);
-		write(1, "sb\n", 3);
+		if (print)
+			write(1, "sb\n", 3);
 	}
 	return ;
 }
 
 void    ss(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-    while (rep-- && print)
+    while (rep--)
 	{
 		ft_swap(stack_a);
 		ft_swap(stack_b);
-		write(1, "ss\n", 3);
+		if (print)
+			write(1, "ss\n", 3);
 	}
 	return ;
 }
@@ -128,20 +131,22 @@ void	ft_push_top(t_stack **stack_from, t_stack **stack_to)
 
 void    pa(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_push_top(stack_b, stack_a);
-		write(1, "pa\n", 3);
+		if (print)
+			write(1, "pa\n", 3);
 	}
 	return ;
 }
 
 void    pb(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
-		ft_push_top(stack_b, stack_a);
-		write(1, "pb\n", 3);
+		ft_push_top(stack_a, stack_b);
+		if (print)
+			write(1, "pb\n", 3);
 	}
 	return ;
 }
@@ -166,31 +171,34 @@ void	ft_rotate(t_stack **stack)
 
 void    ra(t_stack **stack_a, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rotate(stack_a);
-		write(1, "ra\n", 3);
+		if (print)
+			write(1, "ra\n", 3);
 	}
 	return ;
 }
 
 void    rb(t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rotate(stack_b);
-		write(1, "rb\n", 3);
+		if (print)
+			write(1, "rb\n", 3);
 	}
 	return ;
 }
 
 void    rr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rotate(stack_a);
 		ft_rotate(stack_b);
-		write(1, "rr\n", 3);
+		if (print)
+			write(1, "rr\n", 3);
 	}
 	return ;
 }
@@ -216,31 +224,34 @@ void	ft_rev_rotate(t_stack **stack)
 
 void    rra(t_stack **stack_a, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rev_rotate(stack_a);
-		write(1, "rra\n", 4);
+		if (print)
+			write(1, "rra\n", 4);
 	}
 	return ;
 }
 
 void    rrb(t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rev_rotate(stack_b);
-		write(1, "rrb\n", 4);
+		if (print)
+			write(1, "rrb\n", 4);
 	}
 	return ;
 }
 
 void    rrr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	while (rep-- && print)
+	while (rep--)
 	{
 		ft_rev_rotate(stack_a);
 		ft_rev_rotate(stack_b);
-		write(1, "rrr\n", 4);
+		if (print)
+			write(1, "rrr\n", 4);
 	}
 	return ;
 }

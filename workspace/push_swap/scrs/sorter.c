@@ -45,7 +45,7 @@ int	ft_issorted(t_stack	*lst, int *index)
 		if (temp->value > temp->next->value)
 			return (0);
 		temp = temp->next;
-		*index++;
+		(*index)++;
 	}
 	return (1);
 }
@@ -106,7 +106,7 @@ int	ft_getstack_index(t_stack *stack_a, int find_val)
 			index = i;
 		}
 		if (temp_val == 2147483647)
-			index = ft_getstack_index_lower(*stack_a, temp->value);
+			index = ft_getstack_index_lower(stack_a, temp->value);
 		i++;
 		temp = temp->next; 
 	}
@@ -121,18 +121,18 @@ void	ft_getstack_info(t_stack **stack_a, t_stack **stack_b, int size, int i)
 
 	index_b = 0;
 	temp = *stack_b;
-	while (temp);
+	while (temp)
 	{
 		temp->target = ft_getstack_index(*stack_a, temp->value);
 		index_a = temp->target;
 		if (index_a <= ((size - 3) - i) / 2)
-			temp->rot(0) = index_a;
+			temp->rot[0] = index_a;
 		else
-			temp->rot(0) = -((size - 3) - index_a);
+			temp->rot[0] = -((size - 3) - index_a);
 		if (index_b <= i / 2)
-			temp->rot(1) = index_b;
+			temp->rot[1] = index_b;
 		else
-			temp->rot(1) = -(i - index_b);
+			temp->rot[1] = -(i - index_b);
 		temp = temp->next; 
 		index_b++;
 	}
@@ -141,13 +141,15 @@ void	ft_getstack_info(t_stack **stack_a, t_stack **stack_b, int size, int i)
 
 void	ft_sort3(t_stack **stack_a)
 {
-	while (!ft_issorted(*stack_a))
+	int burn_variable;
+
+	while (!ft_issorted(*stack_a, &burn_variable))
 	{
-		if (*stack_a->value > *stack_a->prev->value)
+		if ((*stack_a)->value > (*stack_a)->prev->value)
 			ra(stack_a, 1, 1);
-		if (*stack_a->next->value > *stack_a->prev->value)
+		if ((*stack_a)->next->value > (*stack_a)->prev->value)
 			rra(stack_a, 1, 1);
-		if (*stack_a->value > *stack_a->next->value)
+		if ((*stack_a)->value > (*stack_a)->next->value)
 			sa(stack_a, 1, 1);
 	} 
 	return ;
@@ -165,10 +167,10 @@ void	ft_getnode_cheapest(t_stack *stack, int **rotator)
 	while (temp)
 	{
 		rot = temp->rot;
-		if (ft_abs(*rot(0) - *rot(1))  < ft_abs(*rot(0)) + ft_abs(*rot(1)))
-			temp_val = ft_max(ft_abs(a),ft_abs(b)) - rr;
+		if (ft_abs(rot[0] - rot[1])  < ft_abs(rot[0]) + ft_abs(rot[1]))
+			temp_val = ft_max(ft_abs(rot[0]),ft_abs(rot[1]));
 		else
-			temp_val = ft_abs(*rot(0)) + ft_abs(*rot(1))
+			temp_val = ft_abs(rot[0]) + ft_abs(rot[1]);
 		if (temp_val < total_rot)
 		{
 			total_rot = temp_val;
@@ -204,19 +206,19 @@ void	ft_sorter_push3(t_stack **stack_a)
 	int		size;
 	int		*rotator;
 	int		i;
-	t_stack	stack_b;
+	t_stack	*stack_b;
 
-	i = 0
+	i = 0;
 	size = ft_getstack_size(*stack_a);
 	stack_b = NULL;
-	pb(stack_a, stack_b, size - 3, 1)
+	pb(stack_a, &stack_b, size - 3, 1);
 	ft_sort3(stack_a);
-	while (*stack_b)
+	while (stack_b)
 	{
-		ft_getstack_info(stack_a, stack_b, size, i);
-		ft_getnode_cheapest(stack_a, &rotator);
-		ft_push_prep(stack_a, stack_b, rotator(0), rotator(1));
-		pa(stack_a, &stack_b, a, b);
+		ft_getstack_info(stack_a, &stack_b, size, i);
+		ft_getnode_cheapest(*stack_a, &rotator);
+		ft_push_prep(stack_a, &stack_b, rotator[0], rotator[1]);
+		pa(stack_a, &stack_b, 1, 1);
 		i++;
 	}
 	if (!ft_issorted(*stack_a, &i) && i <= size / 2)

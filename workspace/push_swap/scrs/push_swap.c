@@ -6,7 +6,7 @@
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:07:38 by fandre-b          #+#    #+#             */
-/*   Updated: 2024/03/02 12:59:55 by fandre-b         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:19:52 by fandre-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,18 +125,16 @@ void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error)
 	return;
 }
 
-t_stack *ft_extract_stack(int argc, char **argv, int *error)
+void	ft_extract_stack(t_stack **stack, int argc, char **argv, int *error)
 {
 	int i;
 	int	nbr;
 
 	t_stack *node;
 	t_stack *node_tree;
-	t_stack *stack_a;
 	t_stack *binary_tree;
 
 	i = 1;
-	stack_a = NULL;
 	binary_tree = NULL;
 	while(i < argc && !*error)
 	{
@@ -144,12 +142,10 @@ t_stack *ft_extract_stack(int argc, char **argv, int *error)
 		node = ft_lstnew(nbr);
 		node_tree = ft_lstnew(nbr);
 		ft_checkrepeated(&binary_tree, node_tree, error);
-		ft_lstadd_back(&stack_a, node);
-		//ft_push(&stack_a, node);
+		ft_lstadd_back(stack, node);
 	}
-	ft_sorter(&stack_a, binary_tree);
 	free_tree(binary_tree);
-	return (stack_a);
+	return ;
 }
 
 void	ft_putnbr(int nbr)
@@ -190,7 +186,8 @@ int	main(int argc, char **argv)
 	t_stack	*stack_a;
 
 	error = 0;
-	stack_a = ft_extract_stack(argc, argv, &error);
+	stack_a = NULL;
+	ft_extract_stack(&stack_a, argc, argv, &error);
 	//adicionar possibilidade de fazer com string ou com argumentos.
 	if (error)
 	{
@@ -198,8 +195,8 @@ int	main(int argc, char **argv)
 		write (1, "ERROR\n", 6);
 		return(1);
 	}
-//	ft_sorter(stack_a, algoritm name)
-	//ft_lstprint(stack_a);
+	ft_sorter_push3(&stack_a);
+	ft_lstprint(stack_a);
 	ft_lstdel(stack_a);
 	return(0);
 }

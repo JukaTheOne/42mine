@@ -13,9 +13,9 @@
 NAME			= push_swap
 BONUS_NAME		= checker
 
-SRCS			=	push_swap.c list_manipulation.c sorter.c
+SRCS			=	push_swap.c lst_manipulation.c sorter.c
 
-OBJS			=	$(SRCS:%.c=/%.o)
+OBJS			=	$(SRCS:%.c=%.o)
 #OBJS 			= 	$(SRCS:srcs/%.c=$(OBJ_DIR)/%.o)
 
 
@@ -41,7 +41,7 @@ ${CHECK}:		$(BONUS_OBJS)
 test:			$(NAME)
 				@echo "Number of movements: $$(./push_swap $(RANDOM_NUMBERS) | wc -l)"
 				$(VAL) ./push_swap $(RANDOM_NUMBERS) > output.txt 2>&1
-				./push_swap $(RANDOM_NUMBERS)
+				@./push_swap $(RANDOM_NUMBERS)
 				@grep -B 2 "HEAP SUMMARY" output.txt | awk 'NR==1'
 				@grep "total heap usage" output.txt
 				@grep -A 2 "total heap usage" output.txt | tail -n 1

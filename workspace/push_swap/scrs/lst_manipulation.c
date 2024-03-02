@@ -71,22 +71,34 @@ void	ft_push(t_stack **lst, t_stack *new)
 	return ;
 }
 
-void    sa(t_stack **stack_a)
+void    sa(t_stack **stack_a, int rep, int print)
 {
-    ft_swap(stack_a);
+    while (rep-- && print)
+	{
+		ft_swap(stack_a);
+		write(1, "sa\n", 3);
+	}
 	return ;
 }
 
-void    sb(t_stack **stack_b)
+void    sb(t_stack **stack_b, int rep, int print)
 {
-    ft_swap(stack_b);
+    while (rep-- && print)
+	{
+		ft_swap(stack_b);
+		write(1, "sb\n", 3);
+	}
 	return ;
 }
 
-void    ss(t_stack **stack_a, t_stack **stack_b)
+void    ss(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-    ft_swap(stack_a);
-    ft_swap(stack_b);
+    while (rep-- && print)
+	{
+		ft_swap(stack_a);
+		ft_swap(stack_b);
+		write(1, "ss\n", 3);
+	}
 	return ;
 }
 
@@ -114,21 +126,23 @@ void	ft_push_top(t_stack **stack_from, t_stack **stack_to)
 	return ;
 }
 
-void    pa(t_stack **stack_a, t_stack **stack_b)
+void    pa(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	ft_push_top(stack_a, stack_b);
-	write(1, "pa\n", 3);
-	//(*stack_b)->size++;
-	//(*stack_a)->size++;
+	while (rep-- && print)
+	{
+		ft_push_top(stack_b, stack_a);
+		write(1, "pa\n", 3);
+	}
 	return ;
 }
 
-void    pb(t_stack **stack_a, t_stack **stack_b)
+void    pb(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	ft_push_top(stack_b, stack_a);
-	//(*stack_b)->size--;
-	//(*stack_a)->size++;
-	write(1, "pb\n", 3);
+	while (rep-- && print)
+	{
+		ft_push_top(stack_b, stack_a);
+		write(1, "pb\n", 3);
+	}
 	return ;
 }
 
@@ -150,23 +164,34 @@ void	ft_rotate(t_stack **stack)
 	return ;
 }
 
-void    ra(t_stack **stack_a)
+void    ra(t_stack **stack_a, int rep, int print)
 {
-	ft_rotate(stack_a);
-	write(1, "ra\n", 3);
+	while (rep-- && print)
+	{
+		ft_rotate(stack_a);
+		write(1, "ra\n", 3);
+	}
 	return ;
 }
 
-void    rb(t_stack **stack_b)
+void    rb(t_stack **stack_b, int rep, int print)
 {
-	ft_rotate(stack_b);
+	while (rep-- && print)
+	{
+		ft_rotate(stack_b);
+		write(1, "rb\n", 3);
+	}
 	return ;
 }
 
-void    rr(t_stack **stack_a, t_stack **stack_b)
+void    rr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	ft_rotate(stack_a);
-	ft_rotate(stack_b);
+	while (rep-- && print)
+	{
+		ft_rotate(stack_a);
+		ft_rotate(stack_b);
+		write(1, "rr\n", 3);
+	}
 	return ;
 }
 
@@ -189,21 +214,33 @@ void	ft_rev_rotate(t_stack **stack)
 	return ;
 }
 
-void    rra(t_stack **stack_a)
+void    rra(t_stack **stack_a, int rep, int print)
 {
-	ft_rev_rotate(stack_a);
+	while (rep-- && print)
+	{
+		ft_rev_rotate(stack_a);
+		write(1, "rra\n", 4);
+	}
 	return ;
 }
 
-void    rrb(t_stack **stack_b)
+void    rrb(t_stack **stack_b, int rep, int print)
 {
-	ft_rev_rotate(stack_b);
+	while (rep-- && print)
+	{
+		ft_rev_rotate(stack_b);
+		write(1, "rrb\n", 4);
+	}
 	return ;
 }
 
-void    rrr(t_stack **stack_a, t_stack **stack_b)
+void    rrr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-	ft_rev_rotate(stack_a);
-	ft_rev_rotate(stack_b);
+	while (rep-- && print)
+	{
+		ft_rev_rotate(stack_a);
+		ft_rev_rotate(stack_b);
+		write(1, "rrr\n", 4);
+	}
 	return ;
 }

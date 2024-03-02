@@ -13,15 +13,9 @@
 NAME			= push_swap
 BONUS_NAME		= checker
 
-OBJ_DIR			= ./obj
+SRCS			=	push_swap.c list_manipulation.c sorter.c
 
-SRCS			=	utils_general.c utils_list_general.c utils_list_manipularion.c \
-					push_swap.c list_movements/push_top.c list_movements/rotate.c \
-					list_movements/rev_rotate.c list_movements/swap.c ft_sorter.c utils_sorter.c 
-
-OBJ_W_DIR		=	$(addprefix srcs/,$(SRCS))
-
-OBJS			=	$(SRCS:%.c=$(OBJ_W_DIR)/%.o)
+OBJS			=	$(SRCS:%.c=/%.o)
 #OBJS 			= 	$(SRCS:srcs/%.c=$(OBJ_DIR)/%.o)
 
 
@@ -32,15 +26,13 @@ RM					= @rm -f
 CFLAGS				= -Wall -Wextra -Werror -std=c99
 VAL					= -@valgrind --leak-check=full
 
-$(OBJ_DIR)/%.o: 	%.c
-		mkdir -p 	$(OBJ_DIR) list_movements
+$/%.o: 	%.cs
 					$(CC) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS_DIR)
-
-				$(CC) $(CFLAGS) $(OBJ_W_DIR) -o $(NAME)
+$(NAME):		$(OBJS)
+				$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 ${CHECK}:		$(BONUS_OBJS)
 				$(CC) $(CFLAGS) $(OBJS) -o $(BONUS_NAME)

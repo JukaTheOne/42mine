@@ -6,7 +6,7 @@
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:07:38 by fandre-b          #+#    #+#             */
-/*   Updated: 2024/03/02 16:19:52 by fandre-b         ###   ########.fr       */
+/*   Updated: 2024/03/02 23:38:56 by fandre-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_stack	*ft_lstnew(int nbr)
 {
-	t_stack *current;
+	t_stack	*current;
 
-	current = (t_stack *) malloc (sizeof(t_stack));
+	current = (t_stack *) malloc(sizeof(t_stack));
 	if (!current)
 		return (NULL);
 	current->value = nbr;
@@ -27,18 +27,18 @@ t_stack	*ft_lstnew(int nbr)
 
 void	ft_lstadd_back(t_stack **lst, t_stack *new)
 {
-	t_stack *last;
+	t_stack	*last;
 
 	if (*lst)
 	{
 		last = (*lst)->prev;
-		if (last) //check se existe mais que 1 elemento
+		if (last)
 		{
 			last->next = new;
 			new->prev = last;
 			(*lst)->prev = new;
 		}
-		else //se apenas 1 elemento 
+		else
 		{
 			(*lst)->next = new;
 			new->prev = *lst;
@@ -47,14 +47,14 @@ void	ft_lstadd_back(t_stack **lst, t_stack *new)
 	}
 	else
 		(*lst) = new;
-	return;
+	return ;
 }
 
 void	ft_lstdel(t_stack *lst)
 {
 	t_stack	*temp;
 
-	while(lst)
+	while (lst)
 	{
 		temp = lst;
 		lst = lst->next;
@@ -63,14 +63,14 @@ void	ft_lstdel(t_stack *lst)
 	return ;
 }
 
-void free_tree(t_stack *node)
+void	free_tree(t_stack *node)
 {
-	if (!node) // Base case: if the node is null, return
-		return;
-	free_tree(node->prev); // Recursively delete left subtree
-	free_tree(node->next); // Recursively delete right subtree
-	free(node); // Delete this node
-	node = NULL; // Set the pointer to NULL to avoid dangling pointers
+	if (!node)
+		return ;
+	free_tree(node->prev);
+	free_tree(node->next);
+	free(node);
+	node = NULL;
 	return ;
 }
 
@@ -82,38 +82,38 @@ long	ft_atoi(char *str, int *error)
 	*error = 0;
 	nbr = 0;
 	sign = 1;
-	if(*str == '-')
+	if (*str == '-')
 	{
 		sign = -1;
 		str++;
 	}
 	if (!*str)
 		*error = 1;
-	while(*str && *str >= '0' && *str <= '9')
+	while (*str && *str >= '0' && *str <= '9')
 		nbr = nbr * 10 + sign * (*str++ - '0');
-	if(*str && (*str < '0' || *str > '9' || nbr > INT_MAX || nbr < INT_MIN))
+	if (*str && (*str < '0' || *str > '9' || nbr > INT_MAX || nbr < INT_MIN))
 		*error = 1;
-	return(nbr);
+	return (nbr);
 }
 
 void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error)
 {
-	t_stack *temp;
+	t_stack	*temp;
 
 	temp = *binary_tree;
-	if(!temp)
+	if (!temp)
 		*binary_tree = node;
-	while(temp && node->value != temp->value && temp != node)
-	{//sai do loop se os valores forem iguais ou os nos c/ igual addr
-		if(node->value > temp->value)
-		{//se nao econtrar prox pointer entao adiciona node, e passa auto para esse ptr
-			if(!temp->next)
+	while (temp && node->value != temp->value && temp != node)
+	{
+		if (node->value > temp->value)
+		{
+			if (!temp->next)
 				temp->next = node;
 			temp = temp->next;
 		}
-		else if(node->value < temp->value)
+		else if (node->value < temp->value)
 		{
-			if(!temp->prev)
+			if (!temp->prev)
 				temp->prev = node;
 			temp = temp->prev;
 		}
@@ -121,22 +121,21 @@ void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error)
 	if (temp && node->value == temp->value && temp != node)
 		*error = 1;
 	if (temp && (node->value == temp->value && temp != node))
-		free(node); //node nao foi add
-	return;
+		free(node);
+	return ;
 }
 
 void	ft_extract_stack(t_stack **stack, int argc, char **argv, int *error)
 {
-	int i;
-	int	nbr;
-
-	t_stack *node;
-	t_stack *node_tree;
-	t_stack *binary_tree;
+	int		i;
+	int		nbr;
+	t_stack	*node;
+	t_stack	*node_tree;
+	t_stack	*binary_tree;
 
 	i = 1;
 	binary_tree = NULL;
-	while(i < argc && !*error)
+	while (i < argc && !*error)
 	{
 		nbr = ft_atoi(argv[i++], error);
 		node = ft_lstnew(nbr);
@@ -154,51 +153,53 @@ void	ft_putnbr(int nbr)
 	int		sign;
 
 	sign = 1;
-	if(nbr < 0)
+	if (nbr < 0)
 	{
 		sign = -1;
 		write(1, "-", 1);
 	}
-	if(nbr / 10)
+	if (nbr / 10)
 		ft_putnbr(sign * (nbr / 10));
 	c = '0' + sign * (nbr % 10);
 	write(1, &c, 1);
-	return;
+	return ;
 }
 
 void	ft_lstprint(t_stack *lst)
 {
 	if (!lst)
-		return;
-	while(lst)
+		return ;
+	while (lst)
 	{
 		ft_putnbr(lst->value);
 		write (1, " ", 1);
 		lst = lst->next;
 	}
 	write (1, "\n", 1);
-	return;
+	return ;
 }
 
 int	main(int argc, char **argv)
 {
-	int error;
+	int		error;
 	t_stack	*stack_a;
 
+	if(argc < 2)
+		return (0);
 	error = 0;
 	stack_a = NULL;
 	ft_extract_stack(&stack_a, argc, argv, &error);
-	//adicionar possibilidade de fazer com string ou com argumentos.
 	if (error)
 	{
 		ft_lstdel(stack_a);
 		write (1, "ERROR\n", 6);
-		return(1);
+		return (1);
 	}
-	ft_sorter_push3(&stack_a);
+	while(!ft_issorted(stack_a, &error))
+		ft_sorter_push3(&stack_a);
 	ft_lstprint(stack_a);
 	ft_lstdel(stack_a);
-	return(0);
+	return (0);
 }
 
 //mechanical turk
@@ -211,7 +212,6 @@ int	main(int argc, char **argv)
 //worst case: O(n^2)
 //best neighborhood: O(n)
 
-
 //falta:
 // 1. implementar quicksort, heapsort, or merge sort best neighborhood
 // 2. is_sorted
@@ -223,7 +223,5 @@ int	main(int argc, char **argv)
 // 8. reorganizar codigo
 // 9. norminette
 
-
 //add size
 //add bucket nmr
-

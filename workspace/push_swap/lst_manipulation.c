@@ -20,22 +20,19 @@ Merge Sort
 Quick Sort
 Heap Sort
 Radix Sort
-
-
 (sa, sb, ss, pa, pb, ra, rb, rr, rra, rrb, rrr).*/
 //sacar 3 4 5 11
 
 void	ft_swap(t_stack **stack)
 {
-	t_stack *first;
-    t_stack *second;
+	t_stack	*first;
+	t_stack	*second;
 
-    if (*stack && (*stack)->next)
-    {
-		//checks for existence of nodes in the stack
-        first = *stack;
-        second = (*stack)->next;
-		if (second->next) //lida com 3th elem se existir
+	if (*stack && (*stack)->next)
+	{
+		first = *stack;
+		second = (*stack)->next;
+		if (second->next)
 			second->next->prev = first;
 		second->prev = first->prev;
 		first->next = second->next;
@@ -43,24 +40,24 @@ void	ft_swap(t_stack **stack)
 		first->prev = second;
 		*stack = second;
 		second = first;
-    }
+	}
 	return ;
 }
 
 void	ft_push(t_stack **lst, t_stack *new)
 {
-	t_stack *first;
+	t_stack	*first;
 
 	if (*lst)
 	{
 		first = *lst;
 		*lst = new;
-		(*lst)->next = first; //aponta next pra ex headed
-		if (first->prev) //verifica se existe prev no ex head
+		(*lst)->next = first;
+		if (first->prev)
 			(*lst)->prev = first->prev;
-		else //senao prev aponta para o ex headed
+		else
 			(*lst)->prev = first;
-		first->prev = new; //redefine o prev do ex header
+		first->prev = new;
 	}
 	else
 	{
@@ -71,9 +68,9 @@ void	ft_push(t_stack **lst, t_stack *new)
 	return ;
 }
 
-void    sa(t_stack **stack_a, int rep, int print)
+void	sa(t_stack **stack_a, int rep, int print)
 {
-    while (rep--)
+	while (rep--)
 	{
 		ft_swap(stack_a);
 		if (print)
@@ -82,9 +79,9 @@ void    sa(t_stack **stack_a, int rep, int print)
 	return ;
 }
 
-void    sb(t_stack **stack_b, int rep, int print)
+void	sb(t_stack **stack_b, int rep, int print)
 {
-    while (rep--)
+	while (rep--)
 	{
 		ft_swap(stack_b);
 		if (print)
@@ -93,9 +90,9 @@ void    sb(t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-void    ss(t_stack **stack_a, t_stack **stack_b, int rep, int print)
+void	ss(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
-    while (rep--)
+	while (rep--)
 	{
 		ft_swap(stack_a);
 		ft_swap(stack_b);
@@ -105,21 +102,19 @@ void    ss(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-//////////////////////
-
 void	ft_push_top(t_stack **stack_from, t_stack **stack_to)
 {
 	t_stack	*first;
 
-	if(*stack_from)
+	if (*stack_from)
 	{
 		first = *stack_from;
-		if (first->next) //check se ha 2 elem
+		if (first->next)
 		{
 			*stack_from = first->next;
-			if (first->prev && first->prev != first->next) //check se ha mais que 2 elem
+			if (first->prev && first->prev != first->next)
 				(*stack_from)->prev = first->prev;
-			else //aponta o prev, se for unico aponta null
+			else
 				(*stack_from)->prev = NULL;
 		}
 		else
@@ -129,7 +124,7 @@ void	ft_push_top(t_stack **stack_from, t_stack **stack_to)
 	return ;
 }
 
-void    pa(t_stack **stack_a, t_stack **stack_b, int rep, int print)
+void	pa(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
 	while (rep--)
 	{
@@ -140,7 +135,7 @@ void    pa(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-void    pb(t_stack **stack_a, t_stack **stack_b, int rep, int print)
+void	pb(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
 	while (rep--)
 	{
@@ -151,25 +146,23 @@ void    pb(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-//////////////////////
-
 void	ft_rotate(t_stack **stack)
 {
-	t_stack *first;
-    t_stack *last;
+	t_stack	*first;
+	t_stack	*last;
 
-	if (*stack && (*stack)->prev) // se apenas 2, entao temos simples swap
+	if (*stack && (*stack)->prev)
 	{
 		first = *stack;
 		last = (*stack)->prev;
-		*stack = first->next; //update the header list
+		*stack = first->next;
 		last->next = first;
 		first->next = NULL;
 	}
 	return ;
 }
 
-void    ra(t_stack **stack_a, int rep, int print)
+void	ra(t_stack **stack_a, int rep, int print)
 {
 	while (rep--)
 	{
@@ -180,7 +173,7 @@ void    ra(t_stack **stack_a, int rep, int print)
 	return ;
 }
 
-void    rb(t_stack **stack_b, int rep, int print)
+void	rb(t_stack **stack_b, int rep, int print)
 {
 	while (rep--)
 	{
@@ -191,7 +184,7 @@ void    rb(t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-void    rr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
+void	rr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 {
 	while (rep--)
 	{
@@ -203,26 +196,23 @@ void    rr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-
-////////////////////////
-
 void	ft_rev_rotate(t_stack **stack)
 {
-	t_stack *first;
-    t_stack *last;
+	t_stack	*first;
+	t_stack	*last;
 
-	if (*stack && (*stack)->prev) // se apenas 2, entao temos simples swap
+	if (*stack && (*stack)->prev)
 	{
 		first = *stack;
 		last = (*stack)->prev;
-		*stack = last; //update the header list
+		*stack = last;
 		last->prev->next = last->next;
 		last->next = first;
 	}
 	return ;
 }
 
-void    rra(t_stack **stack_a, int rep, int print)
+void	rra(t_stack **stack_a, int rep, int print)
 {
 	while (rep--)
 	{
@@ -233,7 +223,7 @@ void    rra(t_stack **stack_a, int rep, int print)
 	return ;
 }
 
-void    rrb(t_stack **stack_b, int rep, int print)
+void	rrb(t_stack	**stack_b, int rep, int print)
 {
 	while (rep--)
 	{
@@ -244,7 +234,7 @@ void    rrb(t_stack **stack_b, int rep, int print)
 	return ;
 }
 
-void    rrr(t_stack **stack_a, t_stack **stack_b, int rep, int print)
+void	rrr(t_stack	**stack_a, t_stack	**stack_b, int rep, int print)
 {
 	while (rep--)
 	{

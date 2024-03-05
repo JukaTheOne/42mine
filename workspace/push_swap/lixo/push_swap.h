@@ -48,24 +48,24 @@ void	ft_extract_stack(t_stack **stack_a, int argc, char **argv, int *error);
 //list movements
 //swap first two elements
 void	ft_swap(t_stack **stack);
-void	sa(t_stack **stack_a, int rep, int print);
-void	ss(t_stack **stack_a, t_stack **stack_b, int rep, int print);
+void	sa(t_stack **stack_a);
+void	ss(t_stack **stack_a, t_stack **stack_b);
 //push top stack
 void	ft_push_top(t_stack **stack_from, t_stack **stack_to);
-void	pa(t_stack **stack_a, t_stack **stack_b, int rep, int print);
-void	pb(t_stack **stack_a, t_stack **stack_b, int rep, int print);
+void	pa(t_stack **stack_a, t_stack **stack_b);
+void	pb(t_stack **stack_a, t_stack **stack_b);
 //rotate
 void	ft_rotate(t_stack **stack);
-void	ra(t_stack **stack_a, int rep, int print);
-void	rb(t_stack **stack_b, int rep, int print);
-void	rr(t_stack **stack_a, t_stack **stack_b, int rep, int print);
+void	ra(t_stack **stack_a, int repetition, int print);
+void	rb(t_stack **stack_b, int repetition, int print);
+void	rr(t_stack **stack_a, t_stack **stack_b, int repetition, int print);
 //reverse rotate
 void	ft_rev_rotate(t_stack **stack);
-void	rra(t_stack **stack_a, int rep, int print);
-void	rrb(t_stack **stack_b, int rep, int print);
-void	rrr(t_stack **stack_a, t_stack **stack_b, int rep, int print);
+void	rra(t_stack **stack_a, int repetition, int print);
+void	rrb(t_stack **stack_b, int repetition, int print);
+void	rrr(t_stack **stack_a, t_stack **stack_b, int repetition, int print);
 //sorter utils
-int		ft_issorted(t_stack	*lst, int *index);
+int		ft_issorted(t_stack	*lst);
 int		ft_getstack_index_lower(t_stack *stack_a, int stack_b_value);
 int		ft_getstack_index(t_stack *stack_a, int stack_b_value);
 //sorter

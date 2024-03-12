@@ -1,65 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus.c                                            :+:      :+:    :+:   */
+/*   howtobonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/03 11:08:55 by fandre-b          #+#    #+#             */
-/*   Updated: 2024/03/03 11:08:55 by fandre-b         ###   ########.fr       */
+/*   Created: 2024/03/12 16:39:12 by fandre-b          #+#    #+#             */
+/*   Updated: 2024/03/12 16:39:12 by fandre-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-queremos criar um checker que leia as instruções e execute elas no stack a e no stack b
-so pode receber um comando por linha
-se a sequencia de comandos terminar com sucesso, ele deve imprimir OK
-se nao, KO
-se houver erro de sintaxe, ERROR
-se houver erro de execucao, ERROR
+#include "push_swap.h"
 
-#include "get_next_line.h"
+/*
+o codigo em geral está feito.
+falta reorganizar as funções 
+*/
 
-char	*get_next_line(int fd)
+void    execute_command(char *call, t_stack **s_a, t_stack **s_b, int *error)
 {
-    static char	buffer[BUFFER_SIZE + 1];
-    static int	pos = 0;
-    static int	count = 0;
-    char		*new_str;
-
-    if (fd < 0 || fd > FOPEN_MAX || read(fd, 0, 0) < 0)
-        return (NULL);
-    new_str = NULL;
-    while (1)
-    {
-        if (pos == count)
-        {
-            count = read(fd, buffer, BUFFER_SIZE);
-            pos = 0;
-            if (count <= 0)
-                break ;
-        }
-        new_str = ft_strnjoin(new_str, buffer + pos, 1);
-        if (buffer[pos++] == '\n')
-        {
-            pos++;
-            break ;
-        }
-    }
-    if (count == -1 || (count == 0 && !new_str))
-    {
-        free(new_str);
-        return (NULL);
-    }
-    return (new_str);
+    error = 0;
+    if (strcmp(call, "sa"))
+        sa(s_a, 1, 1);
+    else if (strcmp(call, "sb"))
+        sb(s_b, 1, 1);
+    else if (strcmp(call, "ss"))
+        ss(s_a, s_b, 1, 1);
+    else if (strcmp(call, "pa"))
+        pa(s_a, s_b, 1, 1);
+    else if (strcmp(call, "pb"))
+        pb(s_a, s_b, 1, 1);
+    else if (strcmp(call, "ra"))
+        ra(s_a, 1, 1);
+    else if (strcmp(call, "rb"))
+        rb(s_b, 1, 1);
+    else if (strcmp(call, "rr"))
+        rr(s_a, s_b, 1, 1);
+    else if (strcmp(call, "rra"))
+        rra(s_a, 1, 1);
+    else if (strcmp(call, "rrb"))
+        rrb(s_b, 1, 1);
+    else if (strcmp(call, "rrr"))
+        rrr(s_a, s_b, 1, 1);
+    else
+        error = 1;
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     char *line;
-    while ((line = get_next_line(0)) != NULL)  // 0 is the file descriptor for stdin
+    int error;
+    t_stack *s_a;
+    t_stack *s_b;
+
+    if(argc < 2)
+		return (0);
+	s_a = NULL;
+    s_b = NULL;
+	ft_extract_stack(&s_a, argc, argv, &error);
+    while (!error)
     {
-        printf("%s\n", line);
+        line = get_next_line(0);
+        execute_command(line, &s_a, &s_b, &error);
         free(line);
+        if (line == NULL || error)
+            break;
     }
-    return 0;
+	if (!ft_issorted(s_a, &error) || s_b || error) 
+        write (1, "KO\n", 3);
+    else
+        write (1, "OK\n", 3);
+    return (error);
 }

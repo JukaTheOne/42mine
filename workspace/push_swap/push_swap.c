@@ -6,7 +6,7 @@
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:07:38 by fandre-b          #+#    #+#             */
-/*   Updated: 2024/03/02 23:38:56 by fandre-b         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:13:15 by fandre-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void	ft_extract_stack(t_stack **stack, int argc, char **argv, int *error)
 		ft_checkrepeated(&binary_tree, node_tree, error);
 		ft_lstadd_back(stack, node);
 	}
+	if (*error)
+	{
+		ft_lstdel(*stack);
+		write (1, "ERROR\n", 6);
+	}
 	free_tree(binary_tree);
 	return ;
 }
@@ -186,20 +191,12 @@ int	main(int argc, char **argv)
 
 	if(argc < 2)
 		return (0);
-	error = 0;
 	stack_a = NULL;
 	ft_extract_stack(&stack_a, argc, argv, &error);
-	if (error)
-	{
-		ft_lstdel(stack_a);
-		write (1, "ERROR\n", 6);
-		return (1);
-	}
-	while(!ft_issorted(stack_a, &error))
-		ft_sorter_push3(&stack_a);
-	ft_lstprint(stack_a);
+	ft_sorter_push3(&stack_a);
+	//ft_lstprint(stack_a);
 	ft_lstdel(stack_a);
-	return (0);
+	return (error);
 }
 
 //mechanical turk

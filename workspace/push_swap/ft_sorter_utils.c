@@ -17,6 +17,8 @@ int	ft_issorted(t_stack	*lst, int *index)
 	t_stack	*temp;
 
 	*index = 0;
+	if (!lst)
+		return (0);
 	temp = lst;
 	while (temp->next)
 	{

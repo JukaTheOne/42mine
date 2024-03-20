@@ -27,6 +27,7 @@ typedef struct s_stack
 	int				rot[2];
 }					t_stack;
 
+char	**ft_split(int *size, char *str, char c);
 //general utils
 int		ft_min(int a, int b);
 int		ft_max(int a, int b);

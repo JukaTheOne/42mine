@@ -16,6 +16,8 @@ void	ft_sort3(t_stack **stack_a)
 {
 	int	burn_variable;
 
+	if (!*stack_a)
+		return ;
 	while (!ft_issorted(*stack_a, &burn_variable))
 	{
 		if ((*stack_a)->value > (*stack_a)->prev->value)

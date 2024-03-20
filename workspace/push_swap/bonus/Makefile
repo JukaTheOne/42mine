@@ -13,7 +13,7 @@
 NAME			= push_swap
 BONUS_NAME		= checker
 
-SRCS			=	bonus.c ft_gnl.c ft_lst_general_utils.c ft_lst_moves_push.c ft_lst_moves_revrot.c ft_lst_moves_rot.c ft_lst_moves_swap.c ft_general_utils.c
+SRCS			=	ft_split.c bonus.c ft_gnl.c ft_lst_general_utils.c ft_lst_moves_push.c ft_lst_moves_revrot.c ft_lst_moves_rot.c ft_lst_moves_swap.c ft_general_utils.c
 
 OBJS			=	$(SRCS:%.c=%.o)
 #OBJS 			= 	$(SRCS:srcs/%.c=$(OBJ_DIR)/%.o)

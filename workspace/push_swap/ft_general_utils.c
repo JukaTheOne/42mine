@@ -38,8 +38,6 @@ long	ft_atoi(char *str, int *error)
 	int		sign;
 	long	nbr;
 
-	*error = 0;
-	nbr = 0;
 	sign = 1;
 	if (*str == '-')
 	{

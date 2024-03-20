@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-#include <string.h>
+# include <string.h>
 
 typedef struct s_stack
 {
@@ -28,27 +28,23 @@ typedef struct s_stack
 	int				rot[2];
 }					t_stack;
 
+char	**ft_split(int *size, char *str, char c);
 //general utils
-
 long	ft_atoi(char *str, int *error);
 void	ft_putnbr(int nbr);
 int		ft_strcmp(const char *s1, const char *s2);
-
-//gnl utils
+//gnl
 char	*ft_strnjoin(char *old_str, char *str_add, int size);
 int		ft_strchr_index(char *str, char c);
-//char	*ft_clearbuffer(void *str, int size);
 char	*ft_memshift(void *str, int n_shift);
-//gnl
 char	*get_next_line(int fd);
+//char	*ft_clearbuffer(void *str, int size);
 //char	*ft_process_buffer(int fd, char *new_str, char *buffer);
 //main
-
 void	free_tree(t_stack *node);
 void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error);
 void	ft_extract_stack(t_stack **stack_a, int argc, char **argv, int *error);
 void	execute_command(char *call, t_stack **s_a, t_stack **s_b, int *error);
-
 //list manipulation utils
 //genral list utils
 t_stack	*ft_lstnew(int nbr);

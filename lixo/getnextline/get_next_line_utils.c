@@ -6,7 +6,7 @@
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 14:09:00 by fandre-b          #+#    #+#             */
-/*   Updated: 2024/03/11 23:18:20 by fandre-b         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:26:54 by fandre-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ char	*ft_strnjoin(char *old_str, char *str_add, int size)
 	if (!str_add || !str_add[0])
 		return (old_str);
 	i = 0;
-	if (old_str)
-	{
-		while (old_str[i])
-			i++;
-	}
+	while (old_str && old_str[i])
+		i++;
 	new_str = (char *)malloc(sizeof(char) * (i + size + 1));
 	if (!new_str)
 		return (NULL);
@@ -41,14 +38,14 @@ char	*ft_strnjoin(char *old_str, char *str_add, int size)
 int	ft_strchr_index(char *str, char c)
 {
 	int	i;
-
+ /// a b c d e f \0
+ /// 0 1 2 3 4 5  6
+ /// 1 2 3 4 5 6  7
 	i = 0;
 	if (!str)
 		return (-1);
 	while (str[i] && str[i] != c)
 		i++; //corre ate ter encontrar c e add 1.
-	//if (str[i] == '\0')
-	//	return (-1);
 	return (i);
 }
 

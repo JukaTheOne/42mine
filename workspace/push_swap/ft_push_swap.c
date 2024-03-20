@@ -54,27 +54,28 @@ void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error)
 
 void	ft_extract_stack(t_stack **stack, int argc, char **argv, int *error)
 {
-	int		i;
 	int		nbr;
-	t_stack	*node;
-	t_stack	*node_tree;
+	int		n_elem;
+	int		i;
+	char	**tokens;
 	t_stack	*binary_tree;
 
-	i = 1;
 	binary_tree = NULL;
-	while (i < argc && !*error)
+	while (argc-- > 1 && !*error)
 	{
-		nbr = ft_atoi(argv[i++], error);
-		node = ft_lstnew(nbr);
-		node_tree = ft_lstnew(nbr);
-		ft_checkrepeated(&binary_tree, node_tree, error);
-		ft_lstadd_back(stack, node);
+		i = 0;
+		tokens = ft_split(&n_elem, *(++argv), 32);
+		while (i < n_elem && tokens[i])
+		{
+			nbr = ft_atoi(tokens[i], error);
+			free(tokens[i++]);
+			ft_checkrepeated(&binary_tree, ft_lstnew(nbr), error);
+			ft_lstadd_back(stack, ft_lstnew(nbr));
+		}
+		free(tokens);
 	}
-	if (*error)
-	{
-		ft_lstdel(*stack);
-		write (1, "ERROR\n", 6);
-	}
+	if (error)
+		ft_lstdel(stack_a);
 	free_tree(binary_tree);
 	return ;
 }
@@ -84,11 +85,17 @@ int	main(int argc, char **argv)
 	int		error;
 	t_stack	*stack_a;
 
+	error = 0;
 	if (argc < 2)
 		return (0);
 	stack_a = NULL;
 	ft_extract_stack(&stack_a, argc, argv, &error);
-	ft_sorter_push3(&stack_a);
-	ft_lstdel(stack_a);
+	if (error)
+		write(1, "Error\n", 6);
+	else if (stack_a)
+	{
+		ft_sorter_push3(&stack_a);
+		ft_lstdel(stack_a);
+	}
 	return (error);
 }

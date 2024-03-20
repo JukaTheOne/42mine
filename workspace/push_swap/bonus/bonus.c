@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   howtobonus.c                                       :+:      :+:    :+:   */
+/*   bonus.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fandre-b <fandre-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -54,26 +54,25 @@ void	ft_checkrepeated(t_stack **binary_tree, t_stack *node, int *error)
 
 void	ft_extract_stack(t_stack **stack, int argc, char **argv, int *error)
 {
-	int		i;
 	int		nbr;
-	t_stack	*node;
-	t_stack	*node_tree;
+	int		n_elem;
+	int		i;
+	char	**tokens;
 	t_stack	*binary_tree;
 
-	i = 1;
 	binary_tree = NULL;
-	while (i < argc && !*error)
+	while (argc-- > 1 && !*error)
 	{
-		nbr = ft_atoi(argv[i++], error);
-		node = ft_lstnew(nbr);
-		node_tree = ft_lstnew(nbr);
-		ft_checkrepeated(&binary_tree, node_tree, error);
-		ft_lstadd_back(stack, node);
-	}
-	if (*error)
-	{
-		ft_lstdel(*stack);
-		write (1, "ERROR\n", 6);
+		i = 0;
+		tokens = ft_split(&n_elem, *(++argv), 32);
+		while (i < n_elem && tokens[i])
+		{
+			nbr = ft_atoi(tokens[i], error);
+			free(tokens[i++]);
+			ft_checkrepeated(&binary_tree, ft_lstnew(nbr), error);
+			ft_lstadd_back(stack, ft_lstnew(nbr));
+		}
+		free(tokens);
 	}
 	free_tree(binary_tree);
 	return ;
@@ -103,7 +102,7 @@ void	execute_command(char *call, t_stack **s_a, t_stack **s_b, int *error)
 		rrb(s_b, 1, 0);
 	else if (call && ft_strcmp(call, "rrr") == 0)
 		rrr(s_a, s_b, 1, 0);
-	else
+	else if (call)
 		*error = 1;
 }
 
@@ -114,17 +113,16 @@ int	main(int argc, char **argv)
 	t_stack	*s_a;
 	t_stack	*s_b;
 
-	error = 0;
-	if (argc < 2)
-		return (0);
 	s_a = NULL;
 	s_b = NULL;
+	error = 0;
 	ft_extract_stack(&s_a, argc, argv, &error);
-	while (line != NULL && !error)
+	if (error)
+		return (ft_lstdel(s_a), write (1, "Error\n", 6));
+	while (!error)
 	{
 		line = get_next_line(0);
-		if (line)
-			execute_command(line, &s_a, &s_b, &error);
+		execute_command(line, &s_a, &s_b, &error);
 		free(line);
 		if (line == NULL || error)
 			break ;
@@ -133,8 +131,6 @@ int	main(int argc, char **argv)
 		write (1, "KO\n", 3);
 	else
 		write (1, "OK\n", 3);
-	ft_lstprint(s_a);
-	ft_lstprint(s_b);
 	ft_lstdel(s_a);
 	ft_lstdel(s_b);
 	return (0);

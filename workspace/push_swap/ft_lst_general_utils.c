@@ -69,6 +69,8 @@ int	ft_getstack_size(t_stack *stack)
 	t_stack	*temp;
 
 	size = 0;
+	if (!stack)
+		return (size);
 	temp = stack;
 	while (temp)
 	{

@@ -48,9 +48,10 @@ char	*get_next_line(int fd)
 		if (count < 0)
 			break ;
 		pos = ft_strchr_index(buffer, '\n');
-		new_str = ft_strnjoin(new_str, buffer, pos);
-		ft_memshift(buffer, pos + 1);
-		if (((pos < 10 && pos >= 0) && buffer[0] != '\0') || count == 0)
+		new_str = ft_strnjoin(new_str, buffer, ++pos);
+		ft_memshift(buffer, pos);
+		pos = ft_strchr_index(new_str, '\n');
+		if (count == 0 || !new_str || new_str[pos] == '\n')
 			break ;
 	}
 	if (count == -1 || (count == 0 && (!new_str || !new_str[0])))

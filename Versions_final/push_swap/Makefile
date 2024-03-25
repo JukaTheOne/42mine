@@ -10,85 +10,87 @@
 #                                                                              #
 # **************************************************************************** #
 
-#TODO Adicionar os vddrs ficheiros.
-#TODO reordenar header functions pelos ficheiros.
-#TODO adicionar static qd nao usamos fora do scope.
-#TODO arranjar test e debug rules.
-NAME			= push_swap
-BONUS_NAME		= checker
+NAME			:= push_swap
+BONUS_NAME		:= checker
 
-# RANDOM_NUMBERS	:= $(shell shuf -i 1-500 -n 500)
-RANDOM_NUMBERS	:= "1 2 4 6" "3123 23 13"
+RANDOM_NUMBERS	:= $(shell shuf -i 1-500 -n 500)
+#RANDOM_NUMBERS	:= "1 2 4 6" "3123 23 13"
 
-CC = @cc
-RM = @rm -f
-CFLAGS = -Wall -Wextra -Werror -std=c99
-VAL = -@valgrind --leak-check=full
+CC := @cc
+RM := -@rm -f
+CFLAGS := -Wall -Wextra -Werror -std=c99
+VAL := valgrind --leak-check=full --show-leak-kinds=all -s
 
-OBJ_DIR = obj
-INCLUDES_DIR = includes
+OBJ_DIR := obj
+INCLUDES_DIR := includes
 
-SRCS_DIR = srcs
-CHECK_DIR = bonus
-UTILS_DIR = utils
-MOV_DIR = list_moves
+SRCS := srcs/ft_sorter.c\
+srcs/ft_push_swap.c\
+srcs/ft_sorter_utils.c\
+srcs/list_moves/ft_lst_moves_rot.c\
+srcs/list_moves/ft_lst_moves_push.c\
+srcs/list_moves/ft_lst_moves_revrot.c\
+srcs/list_moves/ft_lst_moves_swap.c\
+srcs/utils/ft_lst_general_utils.c\
+srcs/utils/ft_general_utils.c\
+srcs/utils/ft_split.c\
 
-SRCS_PUSH =	ft_push_swap.c ft_sorter.c ft_sorter_utils.c
-SRCS_CHECK = bonus.c ft_gnl.c
-SRCS_UTILS = ft_split.c ft_lst_general_utils.c ft_general_utils.c
-SRCS_MOVS = ft_lst_moves_push.c ft_lst_moves_revrot.c ft_lst_moves_rot.c ft_lst_moves_swap.c
+BONUS := bonus/ft_gnl.c\
+bonus/bonus.c\
+bonus/list_moves/ft_lst_moves_rot.c\
+bonus/list_moves/ft_lst_moves_push.c\
+bonus/list_moves/ft_lst_moves_revrot.c\
+bonus/list_moves/ft_lst_moves_swap.c\
+bonus/utils/ft_lst_general_utils.c\
+bonus/utils/ft_general_utils.c\
+bonus/utils/ft_split.c\
 
-SRCS_UTILS_DIR = $(addprefix $(UTILS_DIR)/,$(SRCS_UTILS))
-SRCS_MOVS_DIR = $(addprefix $(MOV_DIR)/,$(SRCS_MOVS))
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+OBJ_BONUS := $(addprefix $(OBJ_DIR)/, $(BONUS:.c=.o))
 
-SRCS = $(SRCS_PUSH) $(SRCS_UTILS_DIR) $(SRCS_MOVS_DIR)
-SRCS_BONUS = $(SRCS_CHECK) $(SRCS_UTILS_DIR) $(SRCS_MOVS_DIR) 
+all:	$(NAME) bonus
 
-OBJS = $(addprefix $(OBJ_DIR)/$(SRCS_DIR)/,$(SRCS:%.c=%.o))
-OBJ_BONUS  = $(addprefix $(OBJ_DIR)/$(CHECK_DIR)/,$(SRCS_BONUS:%.c=%.o))
-
- $(OBJ_DIR)/$(SRCS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(dir $(OBJS))
+$(OBJ_DIR)/%.o:	%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I $(INCLUDES_DIR) -c $< -o $@
 
-$(OBJ_DIR)/$(CHECK_DIR)/%.o: $(CHECK_DIR)/%.c
-	@mkdir -p $(dir $(OBJ_BONUS))
-	$(CC) $(CFLAGS) -I $(INCLUDES_DIR) -c $< -o $@
-
-all: $(NAME) bonus
-
-$(NAME): $(OBJS)
+$(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-bonus: $(OBJ_BONUS)
+bonus:	$(BONUS_NAME)
+
+$(BONUS_NAME):	$(OBJ_BONUS)
 	$(CC) $(CFLAGS) $(OBJ_BONUS) -o $(BONUS_NAME)
 
-test: $(NAME) bonus
+test:	re
 	@echo "<Teste sorter>"
-	@echo "//Number of movements: $$(./$(NAME) $(RANDOM_NUMBERS) | tee output.txt | wc -l)\n"
-	$(VAL) --leak-check=full --show-leak-kinds=all -s ./$(NAME) $(RANDOM_NUMBERS) > output2.txt 2>&1
-#	@grep "total heap usage" output2.txt
-	@awk '/HEAP SUMMARY:/ {flag=1} flag' output2.txt
+	@echo $(RANDOM_NUMBERS) > random_numbers.txt
+	@echo "//Number of movements: $$(./$(NAME) "$$(cat random_numbers.txt)" | tee output.txt | wc -l)"
+	-@$(VAL) --leak-check=full --show-leak-kinds=all -s ./$(NAME) "$$(cat random_numbers.txt)" > output2.txt 2>&1
+	@grep "total heap usage" output2.txt
+#	@awk '/HEAP SUMMARY:/ {flag=1} flag' output2.txt
 	@echo "________________________________________________________________________________\n"
 	@echo "<Teste checker>"
-	@./$(NAME) $(RANDOM_NUMBERS) | ./$(BONUS_NAME) $(RANDOM_NUMBERS) > output2.txt 2>&1
-	@echo "//checker result: $$(cat output2.txt)\n"
-	$(VAL) --leak-check=full --show-leak-kinds=all -s ./$(BONUS_NAME) $(RANDOM_NUMBERS) < output.txt > output.txt 2>&1
-	@awk '/HEAP SUMMARY:/ {flag=1} flag' output.txt
-#	@grep "total heap usage" output.txt
+	@ARG=$$(cat random_numbers.txt); ./push_swap $$ARG | ./checker $$ARG > output.txt 2>&1
+	@echo "//checker result: $$(cat output.txt)"
+	-@ARG=$$(cat random_numbers.txt); $(VAL) ./push_swap $$ARG 2>&1 | $(VAL) ./checker $$ARG > output2.txt 2>&1
+	@grep "total heap usage" output2.txt
+#	@awk '/HEAP SUMMARY:/ {flag=1} flag' output.txt
 	@echo "________________________________________________________________________________\n"
-	@echo "<Norminette>"
+	@echo "<Teste Norminette>"
 	@norminette -R CheckDefine . | awk '/Error/'
-	@$(RM) output.txt output2.txt
+	@echo "\n"
+	$(RM) output.txt output2.txt random_numbers.txt
+	@$(MAKE) -s fclean
 
 clean:
-	@echo "Objects removed"
 	$(RM) -rf $(OBJ_DIR)
+	@echo "Objects removed"
 
-fclean: clean
-	@echo "Executable removed"
+fclean:	clean
 	$(RM) $(NAME) $(BONUS_NAME)
+	@echo "Executable removed"
 
-re: fclean all
+re:	fclean all
 
-.PHONY: all bonus test debug clean fclean re
+PHONY:	all $(NAME) bonus test debug clean fclean re
